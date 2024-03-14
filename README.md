@@ -7,10 +7,9 @@ Many pets are sold for the people who don't want to buy them and these pets end 
 
 ## Solution 
 To address this issue, this platform provides a user-friendly interface where pet owners can create detailed profiles for their pets, including photos, descriptions, and relevant information such as age, breed, temperament, and health status. The user who wants to adopt a pet can easily communicate with a seller and make a deal to buy it.
-Description
+
+## Description
 The pet adoption website project aims to create an online platform that facilitates the adoption, buying, and selling of pets. This website will serve as a centralised marketplace where pet owners can connect with potential adopters or buyers, providing a seamless experience for finding and rehoming pets in need of loving homes.
-
-
 
 ## Features
 Create a User-Friendly Interface: Design an intuitive and visually appealing website interface that is easy to navigate for both pet owners and potential adopters/buyers.
@@ -59,3 +58,34 @@ View all list of entities using component
 Insert entity in react app
 update and Delete an entity
 Adding and validating user
+
+# Local Setup
+To run this project locally, follow these steps:
+
+1.Clone the Repository:
+```
+git clone https://github.com/PrathamShailesh/S50_PrathamShailesh_Capstone_Pedopia.git
+```
+
+2.Navigate to the project directory:
+```
+cd S50_PrathamShailesh_Capstone_Pedopia
+```
+
+3.Install dependencies:
+```
+npm install
+```
+
+4.Start the development server:
+```
+npm run start
+```
+
+## Dependencies
+- MongoDB
+- Express
+- React
+- Node.js
+- npm
+- Vite
