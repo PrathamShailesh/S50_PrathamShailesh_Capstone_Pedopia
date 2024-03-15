@@ -1,0 +1,21 @@
+.signup {
+    border: 2px solid transparent; 
+    border-image: linear-gradient(to right, rgba(132, 43, 163, 1), rgba(255, 39, 117, 1)) 1;
+    border-radius: 10px;
+  }
+
+  .wave{
+    background-image: url('./assets/wave.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+  }
+
+  .new{
+    /* border: 1px solid red; */
+    display: flex;
+    width: 57%;
+    text-align: center;
+    /* justify-content: space-between; */
+  }
+  
