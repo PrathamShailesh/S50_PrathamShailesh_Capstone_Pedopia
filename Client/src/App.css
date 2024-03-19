@@ -9,6 +9,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     width: 100%;
+    height: 100%;
   }
 
   .new{
@@ -18,4 +19,16 @@
     text-align: center;
     /* justify-content: space-between; */
   }
+
+  /* @media (min-width: 640px) {
+    .wave {
+      background-size: auto;
+      height: 500px;
+    }
+  }
   
+  @media (min-width: 768px) {
+    .wave {
+      background-size: cover; 
+    }
+  } */
