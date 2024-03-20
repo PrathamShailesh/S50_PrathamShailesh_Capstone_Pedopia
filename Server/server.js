@@ -5,14 +5,16 @@ const authroute=require('./Routes/auth')
 const connectDatabase = require('./Config/Database');
 const passport = require("passport");
 const session = require('express-session');
+require('dotenv').config();
 
+const secret = process.env.Secret
 const app = express();
 const port = 3000;
 
 connectDatabase();
 
 app.use(session({
-    secret: "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",
+    secret: secret,
     resave: true,
     saveUninitialized: true,
     cookie:{secure :false}
