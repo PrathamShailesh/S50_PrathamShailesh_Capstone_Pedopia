@@ -14,7 +14,7 @@ function LandingPage() {
         <Hero />
       </div>
       <Explore />
-      <FindPet />
+      {/* <FindPet /> */}
       <PetCategories />
       <Footer />
     </div>
