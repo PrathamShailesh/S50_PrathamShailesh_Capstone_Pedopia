@@ -4,6 +4,7 @@ import './App.css'
 import { Routes, Route } from 'react-router-dom';
 import SignUp from './components/Form/SignUp';
 import Login from './components/Form/Login';
+import MainPage from './components/MainPage';
 
 
 
@@ -15,6 +16,7 @@ function App() {
       <Route path="/" element={<LandingPage />}/>
       <Route path="/SignUp" element={<SignUp />}/>
       <Route path="/Login" element={<Login />}/>
+      <Route path="/MainPage" element={<MainPage />}/>
     {/* <LandingPage/> */}
     </Routes>
     </>
