@@ -1,24 +1,39 @@
 const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
+const User = require('../Model/user')
+require('dotenv').config();
 
-const GOOGLE_CLIENT_ID = "36387387896-db17jo85e8a0619r5cr4ecgkv2tnp3m3.apps.googleusercontent.com";
-const GOOGLE_CLIENT_SECRET = "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";
+
+const CLIENT_ID = process.env.GOOGLE_CLIENT_ID
+const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
+
 
 passport.use(new GoogleStrategy({
-    clientID: GOOGLE_CLIENT_ID,
-    clientSecret: GOOGLE_CLIENT_SECRET,
+    clientID: CLIENT_ID,
+    clientSecret: CLIENT_SECRET,
     callbackURL: "http://localhost:3000/auth/google/callback",
+    passReqToCallback   : true
   },
-  function(accessToken, refreshToken, profile, done) {
-    // Your authentication logic here
-    // Example: Find or create user based on profile information
-    // usermodel.findOrCreate({ googleId: profile.id }, function (err, user) {
-    if (!err) {
-      return done(null, profile);
-    } else {
-      return done(err);
+
+
+  async function authenticate(request, accessToken, refreshToken, profile, done) {
+    try {
+        let user = await User.findOne({ google_id: profile.id });
+        console.log(profile.displayName)
+        if (!user) {
+            user = new User({
+                google_id: profile.id, 
+                User_Name: profile.displayName,
+                Email: profile.emails[0].value
+            });
+            await user.save();
+        }
+        return done(null, user);
+    } catch (error) {
+        return done(error);
     }
-  }
-));
+}
+)
+);
 
 module.exports = passport;
