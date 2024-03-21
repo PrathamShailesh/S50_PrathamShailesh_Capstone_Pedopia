@@ -16,20 +16,23 @@ passport.use(new GoogleStrategy({
   },
 
 
-async function (request, accessToken, refreshToken, profile, done) {
-  let user = await User.findOne({ googleId: profile.id });
-  if (!user) {
-
-    user = new User({
-      googleId: profile.id,
-      displayName: profile.displayName,
-      email: profile.emails[0].value
-
-    });
-    await user.save();
-  }
-  return done(null, user);
-  }
+  async function authenticate(request, accessToken, refreshToken, profile, done) {
+    try {
+        let user = await User.findOne({ google_id: profile.id });
+        console.log(profile.displayName)
+        if (!user) {
+            user = new User({
+                google_id: profile.id, 
+                User_Name: profile.displayName,
+                Email: profile.emails[0].value
+            });
+            await user.save();
+        }
+        return done(null, user);
+    } catch (error) {
+        return done(error);
+    }
+}
 )
 );
 
