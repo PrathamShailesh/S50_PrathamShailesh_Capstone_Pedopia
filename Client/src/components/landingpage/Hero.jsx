@@ -1,6 +1,7 @@
 import React from 'react';
 import birdImg from '../../assets/bird.png';
 import { Link } from 'react-router-dom';
+import { Button } from '@mui/base';
 
 function Hero() {
   return (
@@ -15,9 +16,9 @@ function Hero() {
           to Petopia, Your Haven for Finding Loving Homes for <br /> Every Pet!
         </p>
           <Link to={'/SignUp'}>
-        <button className="bg-pink-600 text-white px-4 md:px-6 py-2 md:py-1 rounded-lg font-semibold hover:bg-pink-700 transition duration-300">
+        <Button  className="bg-pink-600 text-white px-4 md:px-6 py-2 md:py-1 rounded-lg font-semibold hover:bg-pink-700 transition duration-300">
           Discover More
-        </button>
+        </Button>
           </Link>
       </div>
       <div className="md:w-1/2 mt-6 md:mt-0">
