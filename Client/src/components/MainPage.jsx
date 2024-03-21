@@ -7,21 +7,40 @@ import { Button } from "@/components/ui/button";
 import { faCog } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { useState, useRef } from "react";
+import { useState, useRef ,useEffect} from "react";
 
 
 
 const Main = () => {
   const [showMenu, setShowMenu] = useState(false);
+  const [showSetting, setSetting] = useState(false);
+  const menuRef = useRef(null);
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
+  };
+
+  const toggleSetting = () => {
+    setSetting(!showSetting);
   };
 
   const handleScrollToPets = () => {
     const petListSection = document.getElementById("petList");
     petListSection.scrollIntoView({ behavior: "smooth" });
   };
+
+  const handleClickOutsideMenu = (event) => {
+    if (menuRef.current && !menuRef.current.contains(event.target)) {
+      setShowMenu(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("click", handleClickOutsideMenu);
+    return () => {
+      window.removeEventListener("click", handleClickOutsideMenu);
+    };
+  }, []);
 
   return (
     <div className="bg-gray-100 min-h-screen">
@@ -82,10 +101,10 @@ const Main = () => {
                 Contact
               </a>
               <div className="relative">
-                <button className="text-gray-600 hover:text-gray-800 focus:outline-none" onClick={toggleMenu}>
+                <button className="text-gray-600 hover:text-gray-800 focus:outline-none" onClick={toggleSetting}  aria-label="Settings">
                   <FontAwesomeIcon icon={faCog} />
                 </button>
-                {showMenu && (
+                {showSetting && (
                   <div className="absolute right-0 mt-2 bg-white rounded-md shadow-lg w-48">
                     <div className="py-1">
                       <a
