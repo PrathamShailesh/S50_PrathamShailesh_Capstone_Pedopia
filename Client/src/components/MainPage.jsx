@@ -1,20 +1,35 @@
+import all from "../assets/all-animals.png";
 import bird from "../assets/bird-doodle.jpg";
 import cat from "../assets/cat-doodle.jpg";
 import dummy from "./dummy.json";
-import all from "../assets/all-animals.png";
 import Footer from "./landingpage/Footer";
 import { Button } from "@/components/ui/button";
 import { faCog } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
 import React from "react";
-import { useState, useRef ,useEffect} from "react";
-
-
+import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Main = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [showSetting, setSetting] = useState(false);
+  const [pets, setPets] = useState([]);
   const menuRef = useRef(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchPets = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/rehome");
+        setPets(response.data);
+      } catch (error) {
+        console.error("Error fetching pets:", error);
+      }
+    };
+
+    fetchPets();
+  }, []);
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
@@ -41,6 +56,10 @@ const Main = () => {
       window.removeEventListener("click", handleClickOutsideMenu);
     };
   }, []);
+
+  const rehome = () => {
+    navigate("/Rehome");
+  };
 
   return (
     <div className="bg-gray-100 min-h-screen">
@@ -85,8 +104,9 @@ const Main = () => {
               <a
                 href="#"
                 className="text-gray-600 hover:text-gray-800 hidden lg:inline-block"
+                onClick={rehome}
               >
-                Adopt
+                Rehome a Pet
               </a>
               <a
                 href="#"
@@ -101,7 +121,11 @@ const Main = () => {
                 Contact
               </a>
               <div className="relative">
-                <button className="text-gray-600 hover:text-gray-800 focus:outline-none" onClick={toggleSetting}  aria-label="Settings">
+                <button
+                  className="text-gray-600 hover:text-gray-800 focus:outline-none"
+                  onClick={toggleSetting}
+                  aria-label="Settings"
+                >
                   <FontAwesomeIcon icon={faCog} />
                 </button>
                 {showSetting && (
@@ -153,8 +177,9 @@ const Main = () => {
             <a
               href="#"
               className="block text-gray-600 hover:text-gray-800 py-2"
+              onClick={rehome}
             >
-              Adopt
+              Rehome a Pet
             </a>
             <a
               href="#"
@@ -175,7 +200,7 @@ const Main = () => {
       <section className="bg-gray-800 text-white py-20 px-4 sm:px-10">
         <div className="container mx-auto">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-center md:text-left">
-            Find Your Perfect Companion at PetoPia
+            Explore your perfect pet match at PetoPia
           </h1>
           <p className="text-base md:text-lg mb-8 text-center md:text-left">
             Discover a new friend who will bring joy and happiness to your life.
@@ -194,7 +219,7 @@ const Main = () => {
         <div className="container mx-auto px-4" id="petList">
           <h2 className="text-3xl font-semibold mb-8">Browse by Category</h2>
           <div className="flex flex-wrap justify-start md:justify-center gap-4 md:gap-20">
-            <div className="relative">
+            <div className="relative cursor-pointer">
               <img
                 className="rounded-full h-16 w-16 md:h-20 md:w-20 lg:h-24 lg:w-24 filter brightness-50 hover:brightness-100 transition duration-300"
                 src="https://media.istockphoto.com/id/1186734274/vector/vector-image-of-dog-and-cat-logo-on-white.jpg?s=612x612&w=0&k=20&c=p_wU6nJyvY_31FlX4MSo8MMH1hBHcFo5HxutZccwL4c="
@@ -204,8 +229,8 @@ const Main = () => {
                 <span className="text-white font-bold text-lg">All</span>
               </div>
             </div>
-         
-            <div className="relative">
+
+            <div className="relative cursor-pointer">
               <img
                 className="rounded-full h-16 w-16 md:h-20 md:w-20 lg:h-24 lg:w-24 filter brightness-50 hover:brightness-100 transition duration-300"
                 src={cat}
@@ -215,7 +240,7 @@ const Main = () => {
                 <span className="text-white font-bold text-lg">Cat</span>
               </div>
             </div>
-            <div className="relative">
+            <div className="relative cursor-pointer">
               <img
                 className="rounded-full h-16 w-16 md:h-20 md:w-20 lg:h-24 lg:w-24 filter brightness-50 hover:brightness-100 transition duration-300"
                 src="https://media.istockphoto.com/id/1265211191/vector/dog-black-silhouette-isolated-on-white-background-sitting-pet-simple-illustration-for-web.jpg?s=612x612&w=0&k=20&c=cD6FU8Dyr2RDMmccVdWa0sQmwp2hRk70sOTDS9RfZXg="
@@ -225,7 +250,7 @@ const Main = () => {
                 <span className="text-white font-bold text-lg">Dog</span>
               </div>
             </div>
-            <div className="relative">
+            <div className="relative cursor-pointer">
               <img
                 className="rounded-full h-16 w-16 md:h-20 md:w-20 lg:h-24 lg:w-24 filter brightness-50 hover:brightness-100 transition duration-300"
                 src="https://img.freepik.com/free-vector/hand-drawn-bunny-outline-illustration_23-2149279919.jpg?t=st=1711003971~exp=1711007571~hmac=4e4817fc90491ac840f8e2dc1eb9cb7c24b8eb57fa9703f5b45e74d0a91fdfad&w=740"
@@ -235,7 +260,7 @@ const Main = () => {
                 <span className="text-white font-bold text-lg">Rabbit</span>
               </div>
             </div>
-            <div className="relative">
+            <div className="relative cursor-pointer">
               <img
                 className="rounded-full h-16 w-16 md:h-20 md:w-20 lg:h-24 lg:w-24 filter brightness-50 hover:brightness-100 transition duration-300"
                 src={bird}
@@ -253,9 +278,9 @@ const Main = () => {
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-semibold mb-8">Featured Pets</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-            {dummy.map((pet) => (
+            {pets.map((pet) => (
               <div
-                key={pet.id}
+                key={pet._id}
                 className="bg-white shadow-md rounded-lg overflow-hidden"
               >
                 <img
