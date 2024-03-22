@@ -6,7 +6,7 @@ const router = express.Router();
 
 
 
-router.post('/users', async (req, res, next) => {
+router.post('/', async (req, res, next) => {
   try {
     const newUser = await usermodel.create(req.body);
     res.status(201).json(newUser);
@@ -15,7 +15,7 @@ router.post('/users', async (req, res, next) => {
   }
 });
 
-router.get("/users", async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
     const data = await usermodel.find();
     res.json(data);
