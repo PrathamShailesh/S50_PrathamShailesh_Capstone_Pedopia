@@ -8,7 +8,10 @@ router.post('/', async (req, res, next) => {
       const newPet = await petModel.create(req.body);
       res.status(201).json(newPet);
     } catch (error) {
-      next(error);
+      if (error.name === 'ValidationError') {
+        return res.status(400).json({ message: error.message });
+      }
+      res.status(500).json({ message: 'Internal Server Error' });
     }
 });
 
@@ -17,7 +20,7 @@ router.get("/", async (req, res, next) => {
     const data = await petModel.find();
     res.json(data);
   } catch (error) {
-    next(error);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 });
 

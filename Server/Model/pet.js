@@ -32,7 +32,7 @@ let petschema= new mongoose.Schema({
         required: true,
       },
       price: {
-        type: "string",
+        type: "number",
         required: true,
       },
       description: {
