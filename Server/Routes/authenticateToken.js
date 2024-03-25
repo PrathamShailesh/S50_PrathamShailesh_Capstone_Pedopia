@@ -1,15 +1,16 @@
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
-// Middleware to verify JWT token
+
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
   
-  if (token == null) return res.sendStatus(401); // No token provided
+  if (token == null) return res.sendStatus(401); 
   
-  jwt.verify(token, 'your_secret_key', (err, user) => {
-    if (err) return res.sendStatus(403); // Token verification failed
-    req.user = user; // Attach user information to the request object
+  jwt.verify(token,  process.env.Jwt_Secret_Key, (err, user) => {
+    if (err) return res.sendStatus(403);
+    req.user = user; 
     next();
   });
 };
