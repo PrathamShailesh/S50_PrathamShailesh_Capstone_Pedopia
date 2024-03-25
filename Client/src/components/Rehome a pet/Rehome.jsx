@@ -69,11 +69,15 @@ function Rehome() {
   };
 
   return (
-    <div className="p-4">
-      <div className="container mx-auto p-4 border bg-blue-300">
-        <h1 className="text-3xl font-semibold mb-4 text-center">
-          Rehome a Pet
+    <div className="grid grid-cols-1 sm:grid-cols-3">
+    <div className="sm:bg-blue-300 sm:col-span-1 sm:flex sm:flex-col sm:justify-center sm:items-center h-screen">
+      <h1 className="logo text-5xl font-bold">
+          <span className="text-pink-600">P</span>ETOPIA
         </h1>
+    </div>
+    <div className="sm:col-span-2">
+      <div className="container mx-auto border bg-blue-100 p-4 h-screen">
+        <h1 className="text-3xl font-semibold mb-4 text-center">Rehome a Pet</h1>
         <form onSubmit={handleSubmit} className="max-w-md mx-auto">
           <div className="mb-4">
             <input
@@ -332,12 +336,13 @@ function Rehome() {
       </div>
       {loading && (
         <div className="fixed top-0 left-0 z-50 w-full h-full bg-gray-800 opacity-75 flex items-center justify-center">
-          <div className="spinner-border text-white" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
+        <div className="spinner-border text-white" role="status">
+          <span className="sr-only">Loading...</span>
         </div>
-      )}
-    </div>
+      </div>
+    )}
+  </div>
+</div>
   );
 }
 
