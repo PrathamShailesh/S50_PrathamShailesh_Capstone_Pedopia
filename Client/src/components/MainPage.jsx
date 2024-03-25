@@ -172,8 +172,8 @@ const Main = () => {
         </div>
       )}
 
-      <section className="bg-gray-800 text-white py-20 px-4 sm:px-10">
-        <div className="container mx-auto">
+      <section className="mainpage-bg bg-gray-800 text-white py-20 px-4 h-max  sm:px-10">
+        <div className="container mx-auto p-16">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-center md:text-left">
             Find Your Perfect Companion at PetoPia
           </h1>
