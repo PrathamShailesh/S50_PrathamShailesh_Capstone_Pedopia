@@ -25,11 +25,16 @@ passport.use(new GoogleStrategy({
                 google_id: profile.id, 
                 User_Name: profile.displayName,
                 Email: profile.emails[0].value,
-                Display_Picture: profile.photos[0]
+                Display_Picture: profile.photos[0].value
             });
             await user.save();
         }
-        return done(null, user);
+        return done(null, { 
+            id: user._id,
+            User_Name: user.User_Name,
+            Email: user.Email,
+            Display_Picture: user.Display_Picture
+        });
     } catch (error) {
         return done(error);
     }

@@ -5,6 +5,7 @@ import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { GoogleLogin } from "react-google-login";
+import { useNavigate } from "react-router-dom";
 
 function SignUp() {
   const [formData, setFormData] = useState({
@@ -15,6 +16,7 @@ function SignUp() {
   });
 
   const [isGoogleSigning, setIsGoogleSigning] = useState(false);
+  const navigate  = useNavigate();
 
   useEffect(() => {}, []);
 
@@ -43,7 +45,10 @@ function SignUp() {
         "http://localhost:3000/users",
         formData
       );
+      const { user, token } = response.data;
+      localStorage.setItem("token", token);
       console.log("Form submitted successfully:", response.data);
+      navigate("/MainPage")
     } catch (error) {
       console.error("Error submitting form:", error);
     }
@@ -51,8 +56,7 @@ function SignUp() {
 
   const googleclck = () => {
     setIsGoogleSigning(true);
-    // Add your Google authentication logic here
-    // For example, you might redirect the user to a Google sign-in page
+ 
     window.location.href = "http://localhost:3000/auth/google";
   };
 
