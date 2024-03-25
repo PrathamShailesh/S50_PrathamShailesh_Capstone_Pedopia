@@ -19,16 +19,22 @@ passport.use(new GoogleStrategy({
   async function authenticate(request, accessToken, refreshToken, profile, done) {
     try {
         let user = await User.findOne({ google_id: profile.id });
-        console.log(profile.displayName)
+        console.log(profile)
         if (!user) {
             user = new User({
                 google_id: profile.id, 
                 User_Name: profile.displayName,
-                Email: profile.emails[0].value
+                Email: profile.emails[0].value,
+                Display_Picture: profile.photos[0].value
             });
             await user.save();
         }
-        return done(null, user);
+        return done(null, { 
+            id: user._id,
+            User_Name: user.User_Name,
+            Email: user.Email,
+            Display_Picture: user.Display_Picture
+        });
     } catch (error) {
         return done(error);
     }
