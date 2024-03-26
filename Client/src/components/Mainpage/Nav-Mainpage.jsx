@@ -3,6 +3,8 @@ import React from 'react'
 import { faCog } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
+import logo from "../../assets/Frame_1__4_-removebg-preview.png"
+
 
 function NavMainpage() {
     const [showSetting, setSetting] = useState(false);
@@ -34,9 +36,10 @@ function NavMainpage() {
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center">
-              <h1 className="logo text-3xl font-bold md:text-4xl">
+            <img src={logo} alt="" className="h-16 " />
+              {/* <h1 className="logo text-3xl font-bold md:text-4xl">
                 <span className="text-pink-600 ">P</span>ETOPIA
-              </h1>
+              </h1> */}
             </div>
             <div className="flex items-center space-x-4 lg:space-x-10">
               <button className="lg:hidden" onClick={toggleMenu}>
