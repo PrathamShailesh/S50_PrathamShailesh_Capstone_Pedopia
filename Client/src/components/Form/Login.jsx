@@ -3,12 +3,15 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import signupimg from '../../assets/signUp.png';
-
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 function Login() {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
+
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,10 +21,23 @@ function Login() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Implement your login logic here
-    console.log('Form submitted:', formData);
+    
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/users/login",
+        formData
+      );
+  
+      const { user, token } = response.data;
+      localStorage.setItem("token", token);
+      console.log("Login successful:", user);
+      navigate("/MainPage")
+
+    } catch (error) {
+      console.error("Login failed:", error.message);
+    }
   };
 
   return (
