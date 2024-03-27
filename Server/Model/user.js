@@ -6,6 +6,7 @@ let userSchema = new mongoose.Schema({
     "Password": String,
     "google_id": String,
     "Display_Picture":String,
+
     "Address": { type: String, default: "" },
     posts: [
         {
@@ -13,6 +14,7 @@ let userSchema = new mongoose.Schema({
           ref: 'Pet_detail', 
         }
       ]
+
 })
 
 const usermodel = mongoose.model("user_detail",userSchema)
