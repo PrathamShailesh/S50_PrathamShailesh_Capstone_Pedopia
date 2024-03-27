@@ -39,6 +39,11 @@ let petschema= new mongoose.Schema({
         type: "string",
         required: true,
       },
+        userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+      }
 })
 
 const petModel = mongoose.model("Pet_detail", petschema);

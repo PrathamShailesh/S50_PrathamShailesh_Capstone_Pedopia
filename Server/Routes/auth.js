@@ -1,4 +1,5 @@
 const passport = require("../Config/PasswordAuth");
+const User = require("../Model/user")
 
 const express = require("express");
 const router = express.Router();
@@ -26,5 +27,28 @@ passport.serializeUser(function (user, done) {
 passport.deserializeUser(function (user, done) {
   done(null, user);
 });
+
+router.get(
+  "/google/callback",
+  passport.authenticate("google", { failureRedirect: "/google/failure" }),
+  async function (req, res) {
+    try {
+
+      const token = req.user.token;
+
+
+      const user = await User.findById(req.user.id);
+      if (user) {
+        user.token = token;
+        await user.save();
+      }
+
+      res.redirect('/profile');
+    } catch (error) {
+      console.error("Error handling Google authentication callback:", error);
+      res.status(500).send("Internal server error");
+    }
+  }
+);
 
 module.exports = router;

@@ -1,5 +1,6 @@
 const passport = require('passport');
 var GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
+const jwt = require('jsonwebtoken');
 const User = require('../Model/user')
 require('dotenv').config();
 
@@ -19,16 +20,29 @@ passport.use(new GoogleStrategy({
   async function authenticate(request, accessToken, refreshToken, profile, done) {
     try {
         let user = await User.findOne({ google_id: profile.id });
-        console.log(profile.displayName)
+        // console.log(profile)
         if (!user) {
             user = new User({
                 google_id: profile.id, 
                 User_Name: profile.displayName,
-                Email: profile.emails[0].value
+                Email: profile.emails[0].value,
+                Display_Picture: profile.photos[0].value
             });
             await user.save();
         }
-        return done(null, user);
+        const token = jwt.sign(
+            { userId: user._id, email: user.Email }, 
+            process.env.Jwt_Secret_key, 
+            { expiresIn: '1h' } 
+          );
+       
+        return done(null, { 
+            id: user._id,
+            User_Name: user.User_Name,
+            Email: user.Email,
+            Display_Picture: user.Display_Picture,
+            token
+        });
     } catch (error) {
         return done(error);
     }

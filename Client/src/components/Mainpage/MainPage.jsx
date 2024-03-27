@@ -1,8 +1,8 @@
-import all from "../assets/all-animals.png";
-import bird from "../assets/bird-doodle.jpg";
-import cat from "../assets/cat-doodle.jpg";
-import dummy from "./dummy.json";
-import Footer from "./landingpage/Footer";
+import all from "../../assets/all-animals.png";
+import bird from "../../assets/bird-doodle.jpg";
+import cat from "../../assets/cat-doodle.jpg";
+import dummy from "../dummy.json";
+import Footer from "../landingpage/Footer";
 import { Button } from "@/components/ui/button";
 import { faCog } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,14 +10,14 @@ import axios from "axios";
 import React from "react";
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import NavMainpage from "./Nav-Mainpage";
 
-const Main = () => {
+const Main = ({user}) => {
   const [showMenu, setShowMenu] = useState(false);
   const [showSetting, setSetting] = useState(false);
   const [pets, setPets] = useState([]);
   const menuRef = useRef(null);
   const navigate = useNavigate();
-
   useEffect(() => {
     const fetchPets = async () => {
       try {
@@ -57,148 +57,17 @@ const Main = () => {
     };
   }, []);
 
-  const rehome = () => {
-    navigate("/Rehome");
-  };
+
 
   return (
     <div className="bg-gray-100 min-h-screen">
-      <nav className="bg-white shadow-lg">
-        <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center py-4">
-            <div className="flex items-center">
-              <h1 className="logo text-3xl font-bold md:text-4xl">
-                <span className="text-pink-600 ">P</span>ETOPIA
-              </h1>
-            </div>
-            <div className="flex items-center space-x-4 lg:space-x-10">
-              <button className="lg:hidden" onClick={toggleMenu}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 text-gray-400"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                </svg>
-              </button>
-              <div className="hidden lg:flex items-center">
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  className="bg-gray-200 text-gray-600 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              <a
-                href="#"
-                className="text-gray-600 hover:text-gray-800 hidden lg:inline-block"
-              >
-                Home
-              </a>
-              <a
-                href="#"
-                className="text-gray-600 hover:text-gray-800 hidden lg:inline-block"
-                onClick={rehome}
-              >
-                Rehome a Pet
-              </a>
-              <a
-                href="#"
-                className="text-gray-600 hover:text-gray-800 hidden lg:inline-block"
-              >
-                About
-              </a>
-              <a
-                href="#"
-                className="text-gray-600 hover:text-gray-800 hidden lg:inline-block"
-              >
-                Contact
-              </a>
-              <div className="relative">
-                <button
-                  className="text-gray-600 hover:text-gray-800 focus:outline-none"
-                  onClick={toggleSetting}
-                  aria-label="Settings"
-                >
-                  <FontAwesomeIcon icon={faCog} />
-                </button>
-                {showSetting && (
-                  <div className="absolute right-0 mt-2 bg-white rounded-md shadow-lg w-48">
-                    <div className="py-1">
-                      <a
-                        href="#"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      >
-                        Settings
-                      </a>
-                      <a
-                        href="#"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      >
-                        Profile
-                      </a>
-                      <a
-                        href="#"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      >
-                        Logout
-                      </a>
-                    </div>
-                  </div>
-                )}
-              </div>
-              <div className="relative">
-                <img
-                  src="https://as1.ftcdn.net/v2/jpg/04/43/94/64/1000_F_443946404_7GUoIGZeyx7R7ymCicI3k0xPnrMoKDek.jpg"
-                  alt="Profile Picture"
-                  className="h-8 w-8 rounded-full cursor-pointer"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <NavMainpage/>
+      
 
-      {showMenu && (
-        <div className="lg:hidden bg-white fixed inset-y-0 left-0 w-64 z-50 shadow-md">
-          <div className="p-4">
-            <a
-              href="#"
-              className="block text-gray-600 hover:text-gray-800 py-2"
-            >
-              Home
-            </a>
-            <a
-              href="#"
-              className="block text-gray-600 hover:text-gray-800 py-2"
-              onClick={rehome}
-            >
-              Rehome a Pet
-            </a>
-            <a
-              href="#"
-              className="block text-gray-600 hover:text-gray-800 py-2"
-            >
-              About
-            </a>
-            <a
-              href="#"
-              className="block text-gray-600 hover:text-gray-800 py-2"
-            >
-              Contact
-            </a>
-          </div>
-        </div>
-      )}
+    
 
-      <section className="bg-gray-800 text-white py-20 px-4 sm:px-10">
-        <div className="container mx-auto">
+      <section className="mainpage-bg bg-gray-800 text-white py-20 px-4 h-max  sm:px-10">
+        <div className="container mx-auto p-16">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-center md:text-left">
             Explore your perfect pet match at PetoPia
           </h1>
