@@ -33,7 +33,9 @@ const Main = ({ user }) => {
 
     const fetchPets = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/rehome");
+        const response = await axios.get("http://localhost:3000/rehome", {
+        params: { filter } // Send filter criteria as query parameter
+      });
         setPets(response.data);
       } catch (error) {
         console.error("Error fetching pets:", error);
