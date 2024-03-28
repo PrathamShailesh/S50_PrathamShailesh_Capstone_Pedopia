@@ -8,6 +8,7 @@ function Profile() {
   const [address, setAddress] = useState("");
   const [editMode, setEditMode] = useState(false);
   const [userData, setUserData] = useState(null);
+  const [userPosts, setUserPosts] = useState([]);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -21,10 +22,26 @@ function Profile() {
             Authorization: `Bearer ${token}`,
           },
         });
+        console.log("User data response:", response.data);
         setUserData(response.data);
         setUsername(response.data.User_Name);
         setEmail(response.data.Email);
         setAddress(response.data.Address || "");
+
+        const postsResponse = await axios.get("http://localhost:3000/rehome", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        // console.log("Posts data response:", postsResponse.data);
+        const userId = response.data._id;
+        // console.log("User ID:", userId);
+
+        const userPosts = postsResponse.data.filter(
+          (post) => post.userId === userId
+        );
+        // console.log("User Posts:", userPosts);
+        setUserPosts(userPosts);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -169,16 +186,27 @@ function Profile() {
               </div>
             </>
           )}
-          <div className="mt-8 grid grid-cols-3 gap-4">
-            {dummyPosts.map((post) => (
-              <div
-                key={post.id}
-                className="border border-gray-200 bg-blue-100 rounded-md p-4"
-              >
-                <h3 className="text-xl font-semibold mb-2">{post.title}</h3>
-                <p>{post.content}</p>
-              </div>
-            ))}
+          <div className="py-3">
+            <h3 className="text-xl font-semibold mb-4">Your Posts</h3>
+            <div className="grid grid-cols-3 gap-4">
+              {userPosts.map((post) => (
+                <div
+                  key={post._id}
+                  className="bg-white shadow-md rounded-lg overflow-hidden"
+                  style={{ maxWidth: "300px" }}
+                >
+                  <img
+                    src={post.image}
+                    alt={post.name}
+                    className="w-full h-40 object-cover rounded-t-lg"
+                  />
+                  <div className="p-4">
+                    <h3 className="text-lg font-semibold mb-2">{post.name}</h3>
+                    <p className="text-sm text-gray-600">{post.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
