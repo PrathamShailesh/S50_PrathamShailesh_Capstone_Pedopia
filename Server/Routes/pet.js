@@ -17,7 +17,14 @@ router.post('/', async (req, res, next) => {
 
 router.get("/", async (req, res, next) => {
   try {
-    const data = await petModel.find();
+    const filter = req.query.filter; 
+    let query = {};
+
+    if (filter && filter !== "All") {
+      query = { species: filter };
+    }
+
+    const data = await petModel.find(query);
     res.json(data);
   } catch (error) {
     res.status(500).json({ message: 'Internal Server Error' });

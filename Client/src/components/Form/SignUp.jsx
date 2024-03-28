@@ -50,6 +50,7 @@ function SignUp() {
       const { user, token } = response.data;
       localStorage.setItem("token", token);
       console.log("Form submitted successfully:", response.data);
+      localStorage.setItem("isFirstTimeUser",true)
       navigate("/MainPage")
     } catch (error) {
       if (error.response && error.response.status === 400 && error.response.data && error.response.data.message === "Email already exists") {
