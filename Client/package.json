@@ -28,6 +28,7 @@
     "axios": "^1.6.8",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "evergreen-ui": "^7.1.9",
     "heroicons-react": "^1.4.1",
     "lucide-react": "^0.359.0",
     "react": "^17.0.2",
