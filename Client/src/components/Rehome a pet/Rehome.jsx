@@ -1,8 +1,7 @@
 import { Listbox, Transition } from "@headlessui/react";
-import React, { useState, Fragment } from "react";
 import axios from "axios";
+import React, { useState, Fragment } from "react";
 import { useNavigate } from "react-router-dom";
-
 
 function Rehome() {
   const [formData, setFormData] = useState({
@@ -41,17 +40,48 @@ function Rehome() {
     });
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:3000/rehome", formData);
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        throw new Error("User not authenticated");
+      }
+
+      const decodedToken = parseJwt(token);
+      const userId = decodedToken.userId;
+
+      const formDataWithUserId = {
+        ...formData,
+        userId: userId,
+      };
+
+      const response = await axios.post(
+        "http://localhost:3000/rehome",
+        formDataWithUserId,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
       console.log("Form submitted successfully:", response.data);
       navigate("/MainPage");
     } catch (error) {
       console.error("Error submitting form:", error);
     } finally {
-      setLoading(true);
+      setLoading(false);
+    }
+  };
+
+  const parseJwt = (token) => {
+    try {
+      return JSON.parse(atob(token.split('.')[1]));
+    } catch (e) {
+      return null;
     }
   };
 
@@ -61,22 +91,21 @@ function Rehome() {
     reader.onload = (e) => {
       setFormData({
         ...formData,
-        image: e.target.result, 
+        image: e.target.result,
       });
     };
 
-    reader.readAsDataURL(files[0]); 
+    reader.readAsDataURL(files[0]);
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3">
+    <div className="grid grid-cols-1 sm:grid-cols-3 h-max">
     <div className="sm:bg-blue-300 sm:col-span-1 sm:flex sm:flex-col sm:justify-center sm:items-center h-screen">
       <h1 className="logo text-5xl font-bold">
-          <span className="text-pink-600">P</span>ETOPIA
-        </h1>
+        <span className="text-pink-600">P</span>ETOPIA
+      </h1>
     </div>
-    <div className="sm:col-span-2">
-      <div className="container mx-auto border bg-blue-100  h-max">
+      <div className="container mx-auto border bg-blue-100 p-4 h-screen">
         <h1 className="text-3xl font-semibold mb-4 text-center">Rehome a Pet</h1>
         <form onSubmit={handleSubmit} className="max-w-md mx-auto">
           <div className="mb-4">
@@ -302,47 +331,47 @@ function Rehome() {
 </div>
 
 
-          <div className="mb-4">
-            <input
-              type="text"
-              id="price"
-              name="price"
-              placeholder="Price in INR"
-              value={formData.price}
-              onChange={handleChange}
-              className="w-full border p-2 rounded"
-              required
-            />
-          </div>
+            <div className="mb-4">
+              <input
+                type="text"
+                id="price"
+                name="price"
+                placeholder="Price in INR"
+                value={formData.price}
+                onChange={handleChange}
+                className="w-full border p-2 rounded"
+                required
+              />
+            </div>
 
-          <div className="mb-4">
-            <textarea
-              id="description"
-              name="description"
-              placeholder="Description"
-              value={formData.description}
-              onChange={handleChange}
-              className="w-full border p-2 rounded"
-              required
-            />
-          </div>
-          <button
-            type="submit"
-            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-          >
-            Submit
-          </button>
-        </form>
-      </div>
+            <div className="mb-4">
+              <textarea
+                id="description"
+                name="description"
+                placeholder="Description"
+                value={formData.description}
+                onChange={handleChange}
+                className="w-full border p-2 rounded"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+            >
+              Submit
+            </button>
+          </form>
+        </div>{" "}
+      
       {loading && (
         <div className="fixed top-0 left-0 z-50 w-full h-full bg-gray-800 opacity-75 flex items-center justify-center">
-        <div className="spinner-border text-white" role="status">
-          <span className="sr-only">Loading...</span>
+          <div className="spinner-border text-white" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
         </div>
-      </div>
-    )}
-  </div>
-</div>
+      )}
+    </div>
   );
 }
 

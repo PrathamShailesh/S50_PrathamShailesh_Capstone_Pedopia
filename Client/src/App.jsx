@@ -5,7 +5,7 @@ import { Routes, Route } from 'react-router-dom';
 import SignUp from './components/Form/SignUp';
 import Login from './components/Form/Login';
 import MainPage from './components/Mainpage/MainPage';
-import Rehome from './components/Rehome a pet/Rehome';
+import Rehome from './components/RehomeApet/Rehome';
 import axios from 'axios';
 import Profile from './components/Profile/Profile';
 
