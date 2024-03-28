@@ -4,7 +4,9 @@ let userSchema = new mongoose.Schema({
     "User_Name": String,
     "Email": String,
     "Password": String,
-    "google_id": String
+    "google_id": String,
+    "Display_Picture":String,
+    "Address": { type: String, default: "" }
 })
 
 const usermodel = mongoose.model("user_detail",userSchema)

@@ -76,7 +76,7 @@ function Rehome() {
         </h1>
     </div>
     <div className="sm:col-span-2">
-      <div className="container mx-auto border bg-blue-100  h-max">
+      <div className="container mx-auto border bg-blue-100  h-screen p-10">
         <h1 className="text-3xl font-semibold mb-4 text-center">Rehome a Pet</h1>
         <form onSubmit={handleSubmit} className="max-w-md mx-auto">
           <div className="mb-4">

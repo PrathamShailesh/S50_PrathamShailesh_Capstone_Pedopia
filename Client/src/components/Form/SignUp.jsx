@@ -5,6 +5,7 @@ import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { GoogleLogin } from "react-google-login";
+import { useNavigate } from "react-router-dom";
 
 function SignUp() {
   const [formData, setFormData] = useState({
@@ -13,8 +14,9 @@ function SignUp() {
     Password: "",
     ConfirmPassword: ""
   });
-
+  const [errorMessage, setErrorMessage] = useState("");
   const [isGoogleSigning, setIsGoogleSigning] = useState(false);
+  const navigate  = useNavigate();
 
   useEffect(() => {}, []);
 
@@ -38,21 +40,31 @@ function SignUp() {
       console.error("Password and Confirm Password do not match");
       return;
     }
+
     try {
       const response = await axios.post(
-        "http://localhost:3000/users",
+        "http://localhost:3000/users/signup",
         formData
       );
+      
+      const { user, token } = response.data;
+      localStorage.setItem("token", token);
       console.log("Form submitted successfully:", response.data);
+      navigate("/MainPage")
     } catch (error) {
-      console.error("Error submitting form:", error);
+      if (error.response && error.response.status === 400 && error.response.data && error.response.data.message === "Email already exists") {
+        console.error("Email already exists:", error.response.data.message);
+        setErrorMessage("Email already exists. Please use a different email address.");
+      } else {
+        console.error("Error submitting form:", error);
+        setErrorMessage("An error occurred. Please try again later.");
+      }
     }
   };
 
   const googleclck = () => {
     setIsGoogleSigning(true);
-    // Add your Google authentication logic here
-    // For example, you might redirect the user to a Google sign-in page
+ 
     window.location.href = "http://localhost:3000/auth/google";
   };
 
@@ -67,6 +79,9 @@ function SignUp() {
 
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+          {errorMessage && (
+              <div className="text-red-600 mb-4">{errorMessage}</div>
+            )}
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div>
                 <label

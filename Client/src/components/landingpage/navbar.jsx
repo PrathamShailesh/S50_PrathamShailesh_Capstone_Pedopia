@@ -1,12 +1,14 @@
 import React from "react";
+import logo from "../../assets/Frame_1__4_-removebg-preview.png"
 
 function Navbar() {
   return (
-    <nav className="flex flex-col md:flex-row justify-between items-center p-3 md:p-5"> {/* Reduced padding for small screens */}
+    <nav className="flex flex-col md:flex-row justify-between items-center p-3 md:p-5 "> 
       <div className="mb-4 md:mb-0">
-        <h1 className="logo text-4xl font-bold">
+        <img src={logo} alt="" className="h-20 " />
+        {/* <h1 className="logo text-4xl font-bold">  
           <span className="text-pink-600">P</span>ETOPIA
-        </h1>
+        </h1> */}
       </div>
       <div className="md:space-x-10 space-x-5 text-lg md:flex">
         <a href="#" className="text-gray-800 hover:text-gray-600">
