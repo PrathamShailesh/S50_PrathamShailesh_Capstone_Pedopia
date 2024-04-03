@@ -7,6 +7,8 @@ import NavMainpage from "./Nav-Mainpage";
 import Footer from "../landingpage/Footer";
 import cat from "../../assets/cat-doodle.jpg";
 import bird from "../../assets/bird-doodle.jpg";
+import ClipLoader from "react-spinners/ClipLoader";
+import loadingGif from "../../assets/loadingGif2.gif"
 
 const Main = ({ user }) => {
   const [showMenu, setShowMenu] = useState(false);
@@ -17,9 +19,17 @@ const Main = ({ user }) => {
   const [filter, setFilter] = useState("All");
   const menuRef = useRef(null);
   const navigate = useNavigate();
+  const [loading,setLoading]=useState(true);
 
   useEffect(() => {
     const isFirstTime = localStorage.getItem("isFirstTimeUser");
+
+    // useEffect(()=>{
+    //   setLoading(true);
+    //   setTimeout(() => {
+    //     setLoading(false)
+    //   }, 8000);
+    // })
 
     if (isFirstTime === "false") {
       setIsShown(true);
@@ -33,12 +43,15 @@ const Main = ({ user }) => {
 
     const fetchPets = async () => {
       try {
+        setLoading(true)
         const response = await axios.get("http://localhost:3000/rehome", {
-        params: { filter } // Send filter criteria as query parameter
+        params: { filter } 
       });
         setPets(response.data);
       } catch (error) {
         console.error("Error fetching pets:", error);
+      } finally {
+        setLoading(false); 
       }
     };
 
@@ -72,7 +85,16 @@ const Main = ({ user }) => {
 
   return (
     <div className="bg-gray-100 min-h-screen">
-      <NavMainpage />
+          {loading ? 
+        <div className="flex justify-center items-center absolute inset-0">
+           <div className="flex justify-center items-center absolute inset-0">
+          <img src={loadingGif} alt="" />
+        </div>
+        </div>
+        :
+        <>
+        <NavMainpage />
+        
       <CornerDialog
         title={isFirstTimeUser ? "Welcome to Petopia" : "Welcome back to Petopia"}
         isShown={isShown}
@@ -175,6 +197,7 @@ const Main = ({ user }) => {
       </section>
 
       <Footer />
+      </>}
     </div>
   );
 };
