@@ -26,12 +26,6 @@ const Main = ({ user }) => {
   useEffect(() => {
     const isFirstTime = localStorage.getItem("isFirstTimeUser");
 
-    // useEffect(()=>{
-    //   setLoading(true);
-    //   setTimeout(() => {
-    //     setLoading(false)
-    //   }, 8000);
-    // })
 
     if (isFirstTime === "false") {
       setIsShown(true);
