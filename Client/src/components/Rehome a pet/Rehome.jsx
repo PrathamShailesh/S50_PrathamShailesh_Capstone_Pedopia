@@ -98,7 +98,6 @@ function Rehome() {
 
     reader.readAsDataURL(files[0]);
   };
-  console.log(formData);
 
   return (
     <div className="sm:col-span-2 bg-gray-100 h-screen flex">
