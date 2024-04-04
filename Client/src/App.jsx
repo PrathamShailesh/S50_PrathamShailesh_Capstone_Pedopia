@@ -5,9 +5,10 @@ import { Routes, Route } from 'react-router-dom';
 import SignUp from './components/Form/SignUp';
 import Login from './components/Form/Login';
 import MainPage from './components/Mainpage/MainPage';
-import Rehome from './components/Rehome a pet/Rehome';
+import Rehome from './components/RehomeApet/Rehome';
 import axios from 'axios';
 import Profile from './components/Profile/Profile';
+import ChatBox from './components/ChatBox/ChatBox';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -23,6 +24,7 @@ function App() {
         <Route path="/MainPage" element={<MainPage />} />
         <Route path="/Rehome" element={<Rehome />} />
         <Route path="/Profile" element={<Profile />} />
+        <Route path="/chat" element={<ChatBox />} />
         {/* <LandingPage/> */}
       </Routes>
     </>

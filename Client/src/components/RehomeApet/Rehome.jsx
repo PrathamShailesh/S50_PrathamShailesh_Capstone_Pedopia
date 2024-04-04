@@ -1,8 +1,8 @@
 import { Listbox, Transition } from "@headlessui/react";
-import axios from "axios";
-import { FilePicker } from "evergreen-ui";
 import React, { useState, Fragment } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
 
 function Rehome() {
   const [formData, setFormData] = useState({
@@ -41,48 +41,17 @@ function Rehome() {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
 
     try {
-      const token = localStorage.getItem("token");
-
-      if (!token) {
-        throw new Error("User not authenticated");
-      }
-
-      const decodedToken = parseJwt(token);
-      const userId = decodedToken.userId;
-
-      const formDataWithUserId = {
-        ...formData,
-        userId: userId,
-      };
-
-      const response = await axios.post(
-        "http://localhost:3000/rehome",
-        formDataWithUserId,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
+      const response = await axios.post("http://localhost:3000/rehome", formData);
       console.log("Form submitted successfully:", response.data);
       navigate("/MainPage");
     } catch (error) {
       console.error("Error submitting form:", error);
     } finally {
-      setLoading(false);
-    }
-  };
-
-  const parseJwt = (token) => {
-    try {
-      return JSON.parse(atob(token.split(".")[1]));
-    } catch (e) {
-      return null;
+      setLoading(true);
     }
   };
 
@@ -92,25 +61,24 @@ function Rehome() {
     reader.onload = (e) => {
       setFormData({
         ...formData,
-        image: e.target.result,
+        image: e.target.result, 
       });
     };
 
-    reader.readAsDataURL(files[0]);
+    reader.readAsDataURL(files[0]); 
   };
-  console.log(formData);
 
   return (
-    <div className="sm:col-span-2 bg-gray-100 h-screen flex">
-    <div className="sm:w-1/3 hidden sm:flex sm:bg-blue-300 sm:justify-center sm:items-center">
+    <div className="grid grid-cols-1 sm:grid-cols-3">
+    <div className="sm:bg-blue-300 sm:col-span-1 sm:flex sm:flex-col sm:justify-center sm:items-center h-screen">
       <h1 className="logo text-5xl font-bold">
-        <span className="text-pink-600">P</span>ETOPIA
-      </h1>
+          <span className="text-pink-600">P</span>ETOPIA
+        </h1>
     </div>
-    <div className="flex-1 overflow-y-auto">
-        <div className="max-w-md mx-auto p-8">
-      <h1 className="text-center text-3xl">Rehome Your Pet Form</h1>
-      <form onSubmit={handleSubmit} className="max-w-md mx-auto p-8">
+    <div className="sm:col-span-2">
+      <div className="container mx-auto border bg-blue-100  h-screen p-10">
+        <h1 className="text-3xl font-semibold mb-4 text-center">Rehome a Pet</h1>
+        <form onSubmit={handleSubmit} className="max-w-md mx-auto">
           <div className="mb-4">
             <input
               type="text"
@@ -309,18 +277,30 @@ function Rehome() {
               className="w-full border p-2 rounded"
             />
           </div>
-
+          
           <div className="mb-4">
-            <FilePicker
-              multiple
-              width={300}
-              onChange={(files) => {
-                console.log(files);
-                handleImageChange(files);
-              }}
-              placeholder="Add pet image"
-            />
-          </div>
+  <label htmlFor="image" className="cursor-pointer block mb-2">
+    Add an image
+  </label>
+  <input
+    type="file"
+    id="image"
+    name="image"
+    accept="image/*"
+    onChange={(e) => handleImageChange(e.target.files)}
+    className="hidden"
+    required
+  />
+  {formData.image && ( 
+    <img 
+      src={formData.image}
+      alt="Selected"
+      className="mt-2 w-full max-w-xs rounded border" 
+      style={{ maxHeight: '150px' ,maxWidth:"150px"}} 
+    />
+  )}
+</div>
+
 
           <div className="mb-4">
             <input
@@ -353,16 +333,16 @@ function Rehome() {
             Submit
           </button>
         </form>
-        </div>
-      </div>{" "}
+      </div>
       {loading && (
         <div className="fixed top-0 left-0 z-50 w-full h-full bg-gray-800 opacity-75 flex items-center justify-center">
-          <div className="spinner-border text-white" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
+        <div className="spinner-border text-white" role="status">
+          <span className="sr-only">Loading...</span>
         </div>
-      )}
-    </div>
+      </div>
+    )}
+  </div>
+</div>
   );
 }
 
