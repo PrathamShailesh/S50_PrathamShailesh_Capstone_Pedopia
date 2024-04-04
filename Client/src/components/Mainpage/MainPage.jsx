@@ -9,6 +9,7 @@ import cat from "../../assets/cat-doodle.jpg";
 import bird from "../../assets/bird-doodle.jpg";
 import ClipLoader from "react-spinners/ClipLoader";
 import loadingGif from "../../assets/loadingGif2.gif"
+import PetDetailsPopup from "./AdoptApet/Adopt";
 
 const Main = ({ user }) => {
   const [showMenu, setShowMenu] = useState(false);
@@ -20,16 +21,11 @@ const Main = ({ user }) => {
   const menuRef = useRef(null);
   const navigate = useNavigate();
   const [loading,setLoading]=useState(true);
+  const [selectedPet, setSelectedPet] = useState(null);
 
   useEffect(() => {
     const isFirstTime = localStorage.getItem("isFirstTimeUser");
 
-    // useEffect(()=>{
-    //   setLoading(true);
-    //   setTimeout(() => {
-    //     setLoading(false)
-    //   }, 8000);
-    // })
 
     if (isFirstTime === "false") {
       setIsShown(true);
@@ -82,6 +78,10 @@ const Main = ({ user }) => {
       window.removeEventListener("click", handleClickOutsideMenu);
     };
   }, []);
+
+  const handleAdoptClick = (pet) => {
+    setSelectedPet(pet);
+  };
 
   return (
     <div className="bg-gray-100 min-h-screen">
@@ -185,7 +185,10 @@ const Main = ({ user }) => {
                   <p className="text-gray-700 mb-2">{pet.description}</p>
                   <div className="flex items-center justify-between">
                     <span className="text-xl font-bold">${pet.price}</span>
-                    <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50">
+                    <button 
+                      className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
+                      onClick={() => handleAdoptClick(pet)} 
+                    >
                       Adopt Now
                     </button>
                   </div>
@@ -197,7 +200,9 @@ const Main = ({ user }) => {
       </section>
 
       <Footer />
-      </>}
+      {selectedPet && <PetDetailsPopup pet={selectedPet} onClose={() => setSelectedPet(null)} />}
+      </>
+      }
     </div>
   );
 };
