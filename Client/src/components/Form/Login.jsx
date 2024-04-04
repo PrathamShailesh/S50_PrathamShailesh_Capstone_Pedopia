@@ -5,11 +5,13 @@ import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import signupimg from '../../assets/signUp.png';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+
 function Login() {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
+  
 
   const navigate = useNavigate()
 
@@ -24,6 +26,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    
     try {
       const response = await axios.post(
         "http://localhost:3000/users/login",
@@ -33,6 +36,7 @@ function Login() {
       const { user, token } = response.data;
       localStorage.setItem("token", token);
       console.log("Login successful:", user);
+      localStorage.setItem("isFirstTimeUser",false)
       navigate("/MainPage")
 
     } catch (error) {
@@ -41,7 +45,10 @@ function Login() {
   };
 
   return (
+    
     <div className="max-h-screen flex bg-blue-100">
+      
+      
       <div className="w-1/2 bg-blue-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <h2 className="text-center text-3xl font-extrabold text-blue-700">Sign In</h2>

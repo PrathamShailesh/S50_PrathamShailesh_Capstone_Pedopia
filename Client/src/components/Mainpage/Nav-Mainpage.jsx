@@ -1,45 +1,56 @@
-import { useState } from "react";
-import React from 'react'
+import logo from "../../assets/Frame_1__4_-removebg-preview.png";
 import { faCog } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Tablist, Tab, Pane, Paragraph } from "evergreen-ui";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import logo from "../../assets/Frame_1__4_-removebg-preview.png"
-
 
 function NavMainpage() {
-    const [showSetting, setSetting] = useState(false);
-    const [showMenu, setShowMenu] = useState(false);
+  const [showSetting, setSetting] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [showMenu, setShowMenu] = useState(false);
+  const navigate = useNavigate();
 
-    const navigate = useNavigate()
+  const tabs = ["Home", "Rehome a Pet", "About", "Contact"];
 
-    const toggleMenu = () => {
-        setShowMenu(!showMenu);
-      };
+  const handleTabSelect = (index) => {
+    setSelectedIndex(index);
+    switch (index) {
+      case 0:
+        navigate("/MainPage");
+        break;
+      case 1:
+        navigate("/Rehome");
+        break;
+      
+      default:
+        break;
+    }
+  };
 
-    const toggleSetting = () => {
-        setSetting(!showSetting);
-      };
-
-    const rehome = () => {
+  const rehome = () => {
     navigate("/Rehome");
-    };
+  };
 
-    const profile=()=>{
-        navigate("/Profile")
-    }
-    const home=()=>{
-        navigate("/MainPage")
-    }
+  const toggleSetting = () => {
+    setSetting(!showSetting);
+  };
+
+  const toggleMenu = () => {
+    setShowMenu(!showMenu);
+  };
+
+  const profile = () => {
+    navigate("/Profile");
+  };
+
   return (
     <>
-    <nav className="bg-white shadow-lg">
+      <nav className="bg-white shadow-lg">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center">
-            <img src={logo} alt="" className="h-16 " />
-              {/* <h1 className="logo text-3xl font-bold md:text-4xl">
-                <span className="text-pink-600 ">P</span>ETOPIA
-              </h1> */}
+              <img src={logo} alt="" className="h-16 " />
             </div>
             <div className="flex items-center space-x-4 lg:space-x-10">
               <button className="lg:hidden" onClick={toggleMenu}>
@@ -58,38 +69,28 @@ function NavMainpage() {
                   />
                 </svg>
               </button>
-              <div className="hidden lg:flex items-center">
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  className="bg-gray-200 text-gray-600 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              <a onClick={home}
-                href="#"
-                className="text-gray-600 hover:text-gray-800 hidden lg:inline-block"
+              <Tablist
+                marginBottom={0}
+                className="hidden md:flex hidden x:flex"
               >
-                Home
-              </a>
-              <a
-                href="#"
-                className="text-gray-600 hover:text-gray-800 hidden lg:inline-block"
-                onClick={rehome}
-              >
-                Rehome a Pet
-              </a>
-              <a
-                href="#"
-                className="text-gray-600 hover:text-gray-800 hidden lg:inline-block"
-              >
-                About
-              </a>
-              <a
-                href="#"
-                className="text-gray-600 hover:text-gray-800 hidden lg:inline-block"
-              >
-                Contact
-              </a>
+                {tabs.map((tab, index) => (
+                  <Tab
+                    key={tab}
+                    isSelected={index === selectedIndex}
+                    onSelect={() => handleTabSelect(index)}
+                    fontSize={16}
+                    margin={10}
+                    className={
+                      index === selectedIndex
+                        ? "selected-tab"
+                        : "unselected-tab"
+                    }
+                  >
+                    {tab}
+                  </Tab>
+                ))}
+              </Tablist>
+
               <div className="relative">
                 <button
                   className="text-gray-600 hover:text-gray-800 focus:outline-none"
@@ -110,6 +111,7 @@ function NavMainpage() {
                       <a
                         href="#"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        onClick={profile}
                       >
                         Profile
                       </a>
@@ -134,39 +136,39 @@ function NavMainpage() {
           </div>
         </div>
       </nav>
-        {showMenu && (
-            <div className="lg:hidden bg-white fixed inset-y-0 left-0 w-64 z-50 shadow-md">
-              <div className="p-4">
-                <a
-                  href="#"
-                  className="block text-gray-600 hover:text-gray-800 py-2"
-                >
-                  Home
-                </a>
-                <a
-                  href="#"
-                  className="block text-gray-600 hover:text-gray-800 py-2"
-                  onClick={rehome}
-                >
-                  Rehome a Pet
-                </a>
-                <a
-                  href="#"
-                  className="block text-gray-600 hover:text-gray-800 py-2"
-                >
-                  About
-                </a>
-                <a
-                  href="#"
-                  className="block text-gray-600 hover:text-gray-800 py-2"
-                >
-                  Contact
-                </a>
-              </div>
-            </div>
-          )}
-          </>
-  )
+      {showMenu && (
+        <div className="lg:hidden bg-white fixed inset-y-0 left-0 w-64 z-50 shadow-md">
+          <div className="p-4">
+            <a
+              href="#"
+              className="block text-gray-600 hover:text-gray-800 py-2"
+            >
+              Home
+            </a>
+            <a
+              href="#"
+              className="block text-gray-600 hover:text-gray-800 py-2"
+              onClick={rehome}
+            >
+              Rehome a Pet
+            </a>
+            <a
+              href="#"
+              className="block text-gray-600 hover:text-gray-800 py-2"
+            >
+              About
+            </a>
+            <a
+              href="#"
+              className="block text-gray-600 hover:text-gray-800 py-2"
+            >
+              Contact
+            </a>
+          </div>
+        </div>
+      )}
+    </>
+  );
 }
 
-export default NavMainpage
+export default NavMainpage;
