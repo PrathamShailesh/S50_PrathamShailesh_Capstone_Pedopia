@@ -1,9 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const userroute=require('./Routes/user')
+const userroute=require('./Routes/users')
 const authroute=require('./Routes/auth')
-const petroute=require("./Routes/pet")
+const petroute=require("./Routes/pets")
 const connectDatabase = require('./Config/Database');
 const passport = require("passport");
 const session = require('express-session');
